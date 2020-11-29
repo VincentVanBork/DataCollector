@@ -82,8 +82,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         System.out.println(deviceSensors);
         Log.e("SENSOR", deviceSensors.get(0).toString());
 
-        acce = deviceSensors.get(0);
-        gyro = deviceSensors.get(2);
+//        acce = deviceSensors.get(0);
+//        gyro = deviceSensors.get(2);
+
+        acce = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        gyro = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+
         Log.e("init", acce.toString());
         Log.e("init", gyro.toString());
 
