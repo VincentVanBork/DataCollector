@@ -1,11 +1,15 @@
 package com.madfluffybunny.datacollector;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Sensor acce;
     Sensor gyro;
     int DataCount = 0;
-    BufferedWriter out ;
+    BufferedWriter out;
     BufferedWriter out_accuracy_acce;
     BufferedWriter out_gyro;
     BufferedWriter out_accuracy_gyro;
@@ -44,14 +48,38 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private final float[] deltaRotationVector = new float[4];
     private float timestamp;
 
+    private static final int STORAGE_PERMISSION_CODE = 101;
+
+    public void checkPermission(String permission, int requestCode)
+    {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, permission)
+                == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[] { permission },
+                    requestCode);
+        }
+        else {
+            Toast.makeText(MainActivity.this,
+                    "Permission already granted",
+                    Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+// Function to check and request permission.
 
-
-
+        checkPermission(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                STORAGE_PERMISSION_CODE);
+        checkPermission(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                STORAGE_PERMISSION_CODE);
         try {
             out = new BufferedWriter(new FileWriter(getExternalStorageDirectory()+"/accelerometer.csv", true));
         } catch (IOException e) {
@@ -86,12 +114,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //        gyro = deviceSensors.get(2);
 
         acce = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+
         gyro = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+
+
+        if (acce == null){
+            acce = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        }
+
+        if (gyro == null){
+            gyro = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        }
 
         Log.e("init", acce.toString());
         Log.e("init", gyro.toString());
-
-
 
         Switch toggle = (Switch) findViewById(R.id.switch1);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
