@@ -152,6 +152,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
+        Switch toggle3 = (Switch) findViewById(R.id.switch3);
+        toggle3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    sensorManager.registerListener(MainActivity.this, acce, SensorManager.SENSOR_DELAY_FASTEST);
+                    sensorManager.registerListener(MainActivity.this, gyro, SensorManager.SENSOR_DELAY_FASTEST);
+                } else {
+                    sensorManager.unregisterListener(MainActivity.this);
+
+                }
+            }
+        });
+
+
 //        sensorManager.registerListener(this,acce, SensorManager.SENSOR_DELAY_FASTEST);
         Log.e("FILE LOCATION", String.valueOf(getFilesDir()));
         TextView location_info = findViewById(R.id.file_text);
