@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.os.Environment.getExternalStorageDirectory;
 import static android.util.Half.EPSILON;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -52,28 +53,28 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         try {
-            out = new BufferedWriter(new FileWriter(getFilesDir()+"/accelerometer.csv", true));
+            out = new BufferedWriter(new FileWriter(getExternalStorageDirectory()+"/accelerometer.csv", true));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//
+//        try {
+//            out_accuracy_acce = new BufferedWriter(new FileWriter(getExternalStorageDirectory()+"/accuracy_accelerometer.csv", true));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        try {
+            out_gyro= new BufferedWriter(new FileWriter(getExternalStorageDirectory()+"/gyro.csv", true));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        try {
-            out_accuracy_acce = new BufferedWriter(new FileWriter(getFilesDir()+"/accuracy_accelerometer.csv", true));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            out_gyro= new BufferedWriter(new FileWriter(getFilesDir()+"/gyro.csv", true));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            out_accuracy_gyro= new BufferedWriter(new FileWriter(getFilesDir()+"/accuracy_gyro.csv", true));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            out_accuracy_gyro= new BufferedWriter(new FileWriter(getExternalStorageDirectory()+"/accuracy_gyro.csv", true));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
         SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
