@@ -210,16 +210,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             DataCount++;
             try {
                 StringBuilder values = new StringBuilder();
+                //int increment new data count
                 values.append(DataCount);
                 values.append(',');
                 for (int i = 0; i < event.values.length; i++) {
-
+                    //xyz?
                     values.append(event.values[i]);
                     values.append(',');
                 }
-
+                //accuracy
                 values.append(event.accuracy);
                 values.append(',');
+                //time epoch
                 values.append(event.timestamp);
 
                 out.write(String.valueOf(values));
@@ -275,16 +277,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             try {
                 StringBuilder values = new StringBuilder();
+                //count
                 values.append(DataCount);
                 values.append(',');
                 for (int i = 0; i < event.values.length; i++) {
-
+                    //values
                     values.append(event.values[i]);
                     values.append(',');
                 }
-
+                //accuracy
                 values.append(event.accuracy);
                 values.append(',');
+                //timestamp
                 values.append(event.timestamp);
 
                 out_gyro.write(String.valueOf(values));
